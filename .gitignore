@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+.venv/
+venv/
+
+# Packaging / tooling caches
+*.egg-info/
+build/
+dist/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
+
+# Data + generated outputs (keep repo lean)
+data/
+results/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX build artifacts
+
+# Ignore most of the paper directory, but keep sources.
+paper/**
+!paper/
+!paper/**/*.tex
+!paper/**/*.bib
+
+# LaTeX build artifacts (anywhere)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.run.xml
+*.bcf
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
+*.mw
+*.nlo
+*.nls
+*.pdfsync
+*.synctex
+*.synctex(busy)
+
+# Common paper outputs
+paper/*.pdf
+paper/*.dvi
+paper/*.ps
+
+# Jupyter
+.ipynb_checkpoints/
