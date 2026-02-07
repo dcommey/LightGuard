@@ -25,13 +25,8 @@ results/
 .DS_Store
 Thumbs.db
 
-# LaTeX build artifacts
-
-# Ignore most of the paper directory, but keep sources.
-paper/**
-!paper/
-!paper/**/*.tex
-!paper/**/*.bib
+# Paper / LaTeX (kept out of GitHub repo)
+paper/
 
 # LaTeX build artifacts (anywhere)
 *.aux
@@ -66,10 +61,6 @@ paper/**
 *.synctex
 *.synctex(busy)
 
-# Common paper outputs
-paper/*.pdf
-paper/*.dvi
-paper/*.ps
 
 # Jupyter
 .ipynb_checkpoints/

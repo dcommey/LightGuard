@@ -48,10 +48,5 @@ Regenerate aggregated CI plots/tables from existing `seed_<seed>` folders:
 .\venv\Scripts\python.exe run_analysis.py --output-dir results/darknet_ci --aggregate-only
 ```
 
-## Paper
-
-LaTeX sources live in `paper/`. Build artifacts and PDFs are ignored by default.
-
 ## License
-
-Add a license file before public release if needed.
+MIT (see LICENSE).
