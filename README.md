@@ -20,8 +20,6 @@ By default, runs use `data/` for datasets and `results/` for outputs.
 - ISCX-VPN-NonVPN-2016 can be downloaded/prepared automatically (ARFF zips → CSV).
 - CSE-CIC-IDS2018 requires `aws s3 sync` (see `lightguard/datasets.py`).
 
-Note: this repo’s `.gitignore` excludes `data/` and `results/` to keep GitHub pushes small.
-
 ### 3) Validate a dataset (load + preprocess only)
 
 ```powershell
