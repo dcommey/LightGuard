@@ -84,6 +84,50 @@ This checks that the dataset loads and preprocesses correctly.
 .\venv\Scripts\python.exe run_analysis.py --output-dir results/darknet_ci --aggregate-only
 ```
 
+## Robustness + diagnostics
+
+You can run these either directly via `scripts/` or through the `run_analysis.py diag ...` subcommands.
+
+### MMD probe-size robustness (100 vs 1k vs 5k)
+
+This runs a small Monte Carlo check of the MMD drift score stability as the probe size increases.
+It writes per-window means/stds plus drift-decision agreement vs the default 100-flow probe.
+
+```powershell
+.\venv\Scripts\python.exe scripts\probe_size_robustness.py --dataset darknet --probe-sizes 100,1000,5000 --reps 50 --seed 1 --output-dir results\darknet_ci\seed_1\diagnostics
+```
+
+Equivalent via runner subcommand:
+
+```powershell
+.\venv\Scripts\python.exe run_analysis.py diag probe-robustness --dataset darknet --probe-sizes 100,1000,5000 --reps 50 --seed 1 --output-dir results\darknet_ci\seed_1\diagnostics
+```
+
+Outputs:
+
+- `results/darknet_ci/seed_1/diagnostics/mmd_probe_robustness.csv`
+- `results/darknet_ci/seed_1/diagnostics/mmd_probe_robustness_summary.csv`
+
+### Accuracy diagnostics (more decimals + confusion matrices)
+
+This exports window-level accuracies to 6 decimals and writes confusion matrices for LightGuard windows whose accuracy rounds to `1.000` at 3 decimals.
+
+```powershell
+.\venv\Scripts\python.exe scripts\accuracy_diagnostics.py --dataset darknet --seed 1 --output-dir results\darknet_ci\seed_1\diagnostics
+```
+
+Equivalent via runner subcommand:
+
+```powershell
+.\venv\Scripts\python.exe run_analysis.py diag accuracy --dataset darknet --seed 1 --output-dir results\darknet_ci\seed_1\diagnostics
+```
+
+Outputs:
+
+- `results/darknet_ci/seed_1/diagnostics/accuracy_diagnostics.csv`
+- `results/darknet_ci/seed_1/diagnostics/accuracy_diagnostics_lightguard_summary.csv`
+- `results/darknet_ci/seed_1/diagnostics/lightguard_confusion_matrix_window_<k>.csv`
+
 ## Notes
 
 - Chronological windows are strictly non-overlapping, and evaluation is always on future windows relative to the model state being evaluated.

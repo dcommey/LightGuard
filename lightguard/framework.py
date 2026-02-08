@@ -126,6 +126,7 @@ class LightGuardFramework:
         buffer_size: int = 1000,
         drift_threshold: float = 0.05,
         update_fraction: float = 0.25,
+        use_confidence_drift: bool = False,
     ):
         self.base_model = base_model
         self.feature_columns = feature_columns
@@ -133,6 +134,7 @@ class LightGuardFramework:
         self.buffer_size = buffer_size
         self.drift_threshold = drift_threshold
         self.update_fraction = update_fraction
+        self.use_confidence_drift = use_confidence_drift
 
         self.memory_buffer = MemoryBuffer(max_size=buffer_size)
         self.scaler = StandardScaler()
@@ -204,12 +206,11 @@ class LightGuardFramework:
         mmd_score = self._compute_mmd(self.reference_features[:100], X_current[:100], sigma=1.0)
 
         confidence_drop = 0.0
-        if y_proba is not None:
+        ph_alert = False
+        if self.use_confidence_drift and y_proba is not None:
             avg_confidence = float(np.mean(np.max(y_proba, axis=1)))
             ph_alert = self._page_hinkley_test(avg_confidence)
             confidence_drop = 1.0 - avg_confidence
-        else:
-            ph_alert = False
 
         mmd_drift = mmd_score > self.drift_threshold
         confidence_drift = ph_alert

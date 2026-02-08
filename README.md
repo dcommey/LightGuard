@@ -46,5 +46,14 @@ Regenerate aggregated CI plots/tables from existing `seed_<seed>` folders:
 .\venv\Scripts\python.exe run_analysis.py --output-dir results/darknet_ci --aggregate-only
 ```
 
+## Diagnostics
+
+These commands generate reviewer-facing diagnostics artifacts (probe-size robustness + higher-precision accuracies).
+
+```powershell
+.\venv\Scripts\python.exe run_analysis.py diag probe-robustness --dataset darknet --probe-sizes 100,1000,5000 --reps 50 --seed 1 --output-dir results\diagnostics
+.\venv\Scripts\python.exe run_analysis.py diag accuracy --dataset darknet --seed 1 --output-dir results\diagnostics
+```
+
 ## License
 MIT (see LICENSE).

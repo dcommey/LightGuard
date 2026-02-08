@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 import argparse
 from pathlib import Path
 
@@ -10,6 +11,37 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 from lightguard.analyzers import EnhancedDurabilityAnalyzer
 from lightguard.datasets import DATASETS, get_dataset_spec
 from lightguard.io import download_dataset, prepare_iscx_vpn_nonvpn_2016
+
+
+def _run_diagnostics(argv: list[str]) -> int:
+    if not argv or argv[0] in {"-h", "--help"}:
+        print(
+            "Diagnostics subcommands:\n"
+            "  run_analysis.py diag probe-robustness [args...]\n"
+            "  run_analysis.py diag accuracy [args...]\n\n"
+            "Examples:\n"
+            "  .\\venv\\Scripts\\python.exe run_analysis.py diag probe-robustness --dataset darknet --probe-sizes 100,1000,5000 --reps 50 --seed 1 --output-dir results\\diagnostics\n"
+            "  .\\venv\\Scripts\\python.exe run_analysis.py diag accuracy --dataset darknet --seed 1 --output-dir results\\diagnostics\n\n"
+            "Run with '--help' after a subcommand to see its options."
+        )
+        return 0
+
+    subcmd = argv[0]
+    sub_argv = argv[1:]
+
+    if subcmd in {"probe-robustness", "probe_size_robustness"}:
+        from scripts.probe_size_robustness import main as probe_main
+
+        return int(probe_main(sub_argv))
+
+    if subcmd in {"accuracy", "accuracy-diagnostics", "accuracy_diagnostics"}:
+        from scripts.accuracy_diagnostics import main as acc_main
+
+        return int(acc_main(sub_argv))
+
+    print(f"Error: unknown diagnostics subcommand '{subcmd}'")
+    print("Try: run_analysis.py diag --help")
+    return 2
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
@@ -105,6 +137,12 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    if argv is None:
+        argv = sys.argv[1:]
+
+    if argv and argv[0] == "diag":
+        return _run_diagnostics(argv[1:])
+
     args = _build_arg_parser().parse_args(argv)
 
     if args.prepare_only and args.validate_only:
